@@ -46,10 +46,22 @@ module Xcov
         end
 
         json = {
-          service_job_id: Xcov.config[:coveralls_service_job_id],
-          service_name: Xcov.config[:coveralls_service_name],
+          service_job_id: Xcov.config[:coveralls_service_job_id] || ENV['CI_BUILD_NUMBER'],
+          service_name: Xcov.config[:coveralls_service_name] || ENV['CI_NAME'],
           repo_token: Xcov.config[:coveralls_repo_token],
-          source_files: source_files
+          source_files: source_files,
+          service_build_url: ENV['CI_BUILD_URL'],
+          service_pull_request => ENV['CI_PULL_REQUEST']
+          service_branch => ENV['CI_BRANCH'],
+          git: {
+            branch: ENV['CI_BRANCH'],
+            head: {
+              id: ENV['CI_COMMIT'],
+              committer_name: (`git log --format=%an -n 1 HEAD`.chomp || ""),
+              committer_email: (`git log --format=%ae -n 1 HEAD`.chomp || ""),
+              message: (`git log --format=%s -n 1 HEAD`.chomp || "")
+            }
+          }
         }
 
         require "json"
