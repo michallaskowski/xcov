@@ -51,7 +51,7 @@ module Xcov
           repo_token: Xcov.config[:coveralls_repo_token],
           source_files: source_files,
           service_build_url: ENV['CI_BUILD_URL'],
-          service_pull_request: ENV['CI_PULL_REQUEST']
+          service_pull_request: ENV['CI_PULL_REQUEST'],
           service_branch: ENV['CI_BRANCH'],
           git: {
             branch: ENV['CI_BRANCH'],
